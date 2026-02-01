@@ -8,6 +8,7 @@ import authRoutes from './routes/auth.routes.js';
 import entriesRoutes from './routes/entries.js';
 import tmdbRoutes from './routes/tmdb.routes.js';
 import followsRoutes from './routes/follows.routes.js';
+import likesRoutes from './routes/likes.routes.js';
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/entries', entriesRoutes);
 app.use('/api/v1/tmdb', tmdbRoutes);
 app.use('/api/v1/follows', followsRoutes);
+app.use('/api/v1/likes', likesRoutes);
 
 // 404 handler
 app.use(notFoundHandler);
