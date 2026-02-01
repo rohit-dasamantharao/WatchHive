@@ -6,6 +6,7 @@ import { config } from './config.js';
 import { errorHandler, notFoundHandler } from './middleware/error.middleware.js';
 import authRoutes from './routes/auth.routes.js';
 import entriesRoutes from './routes/entries.js';
+import tmdbRoutes from './routes/tmdb.routes.js';
 
 const app = express();
 
@@ -41,6 +42,7 @@ app.get('/health', (req, res) => {
 // API routes
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/entries', entriesRoutes);
+app.use('/api/v1/tmdb', tmdbRoutes);
 
 // 404 handler
 app.use(notFoundHandler);
