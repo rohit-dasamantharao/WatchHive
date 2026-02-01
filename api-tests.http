@@ -1,0 +1,199 @@
+### WatchHive API Tests
+### Use with VS Code REST Client extension
+
+### Variables
+@baseUrl = http://localhost:5001
+@accessToken = 
+@refreshToken = 
+
+### ============================================
+### Health Check
+### ============================================
+
+GET {{baseUrl}}/health
+
+### ============================================
+### Authentication Tests
+### ============================================
+
+### Register New User
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser1",
+  "email": "testuser1@example.com",
+  "password": "SecurePass123",
+  "displayName": "Test User One"
+}
+
+###
+
+### Register Another User
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "johndoe",
+  "email": "john@example.com",
+  "password": "JohnPass456",
+  "displayName": "John Doe"
+}
+
+###
+
+### Login
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "testuser1@example.com",
+  "password": "SecurePass123"
+}
+
+###
+
+### Refresh Token (replace with actual refresh token from login)
+POST {{baseUrl}}/api/v1/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "{{refreshToken}}"
+}
+
+###
+
+### Logout
+POST {{baseUrl}}/api/v1/auth/logout
+
+### ============================================
+### Validation Error Tests
+### ============================================
+
+### Invalid Email Format
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser2",
+  "email": "not-an-email",
+  "password": "SecurePass123"
+}
+
+###
+
+### Short Username (less than 3 chars)
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "ab",
+  "email": "test@example.com",
+  "password": "SecurePass123"
+}
+
+###
+
+### Weak Password (no uppercase)
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser3",
+  "email": "test3@example.com",
+  "password": "weakpassword"
+}
+
+###
+
+### Weak Password (no number)
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser4",
+  "email": "test4@example.com",
+  "password": "WeakPassword"
+}
+
+###
+
+### Short Password
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser5",
+  "email": "test5@example.com",
+  "password": "Short1"
+}
+
+###
+
+### Invalid Username (special characters)
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "test-user!",
+  "email": "test6@example.com",
+  "password": "SecurePass123"
+}
+
+###
+
+### Missing Required Fields
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser7"
+}
+
+###
+
+### Duplicate Email
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "differentuser",
+  "email": "testuser1@example.com",
+  "password": "SecurePass123"
+}
+
+###
+
+### Duplicate Username
+POST {{baseUrl}}/api/v1/auth/register
+Content-Type: application/json
+
+{
+  "username": "testuser1",
+  "email": "different@example.com",
+  "password": "SecurePass123"
+}
+
+###
+
+### Wrong Password on Login
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "testuser1@example.com",
+  "password": "WrongPassword123"
+}
+
+###
+
+### Non-existent User Login
+POST {{baseUrl}}/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "nonexistent@example.com",
+  "password": "SomePassword123"
+}
+
+###

@@ -1,0 +1,55 @@
+# 🤖 AI Context - Quick Reference
+
+⚠️ **BEFORE MAKING ANY CHANGES, READ: `AI_DEVELOPMENT_GUIDE.md`**
+
+## 🔑 Test Credentials
+```
+Email: test@watchhive.com
+Password: TestPass123
+```
+
+## 🚀 Quick Start
+```bash
+npm run dev                          # Start both servers
+cd server && npx prisma studio       # View database
+```
+
+## 🌐 URLs
+```
+Frontend:  http://localhost:3000
+Backend:   http://localhost:5001
+Database:  http://localhost:5555
+```
+
+## ✅ Current Status
+- [x] Authentication (login, signup, JWT)
+- [x] Entry Management (create, edit, delete)
+- [x] Database (8 tables, Supabase)
+- [ ] Social Features (follow, like, comment)
+- [ ] TMDb Integration
+- [ ] Lists & Discovery
+
+## 🐛 Common Fixes
+- Port in use: `pkill -f "npm run dev"`
+- Missing modules: `npm install` in root, client, server
+- Prisma issues: `cd server && npx prisma generate`
+- Update fails: Don't send `tmdbId` in update payload
+
+## 📚 Key Files
+- `AI_DEVELOPMENT_GUIDE.md` - **READ THIS FIRST**
+- `docs/README.md` - Documentation index
+- `docs/setup/QUICKSTART.md` - Quick start
+- `docs/architecture/WATCHHIVE_REQUIREMENTS.md` - Requirements
+- `docs/architecture/WATCHHIVE_ARCHITECTURE.md` - Architecture
+- `docs/implementation/DATABASE_SETUP_COMPLETE.md` - Database info
+- `docs/implementation/ENTRY_MANAGEMENT_COMPLETE.md` - Entry system
+- `docs/implementation/DEVELOPMENT_SESSION_LOG.md` - Recent changes
+
+## 🎯 Core Concepts
+1. User-centric social platform for movie tracking
+2. JWT authentication with auto-refresh
+3. Prisma ORM + PostgreSQL (Supabase)
+4. React + TypeScript frontend
+5. Express + TypeScript backend
+
+**Version**: 1.0.0 | **Last Updated**: Feb 1, 2026

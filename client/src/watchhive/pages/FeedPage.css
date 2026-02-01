@@ -1,0 +1,56 @@
+/* Feed Page Styles */
+
+.feed-page {
+    min-height: 100vh;
+    padding: var(--wh-space-8) 0;
+}
+
+.feed-page__header {
+    margin-bottom: var(--wh-space-8);
+    text-align: center;
+}
+
+.feed-page__header h1 {
+    font-size: var(--wh-font-size-4xl);
+    margin-bottom: var(--wh-space-3);
+}
+
+.feed-page__header p {
+    font-size: var(--wh-font-size-lg);
+    color: var(--wh-text-secondary);
+}
+
+.feed-page__content {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.feed-empty {
+    text-align: center;
+    padding: var(--wh-space-16) var(--wh-space-6);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.feed-empty__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    border-radius: var(--wh-radius-full);
+    background: var(--wh-bg-tertiary);
+    color: var(--wh-primary);
+    margin-bottom: var(--wh-space-6);
+}
+
+.feed-empty h2 {
+    font-size: var(--wh-font-size-2xl);
+    margin-bottom: var(--wh-space-3);
+}
+
+.feed-empty p {
+    font-size: var(--wh-font-size-lg);
+    color: var(--wh-text-tertiary);
+    max-width: 500px;
+    margin: 0 auto;
+}

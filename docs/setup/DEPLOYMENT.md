@@ -1,0 +1,168 @@
+# Deployment Guide for WatchHive
+
+This guide covers various deployment options for your full-stack WatchHive application.
+
+## 🚀 Quick Deployment Options
+
+### Option 1: Vercel (Recommended for Frontend + Serverless Backend)
+
+**Frontend Deployment:**
+1. Install Vercel CLI: `npm i -g vercel`
+2. Navigate to client folder: `cd client`
+3. Build: `npm run build`
+4. Deploy: `vercel --prod`
+
+**Backend as Serverless Function:**
+1. Create `api` folder in root
+2. Move server logic to serverless functions
+3. Deploy with Vercel
+
+### Option 2: Railway (Full-Stack Deployment)
+
+Railway is perfect for deploying both frontend and backend together.
+
+1. **Sign up at [Railway.app](https://railway.app)**
+2. **Connect your GitHub repository**
+3. **Configure Build Settings:**
+   - Root Directory: `/`
+   - Build Command: `cd client && npm install && npm run build`
+   - Start Command: `cd server && npm install && npm start`
+4. **Set Environment Variables:**
+   - `PORT` (Railway provides this automatically)
+   - `NODE_ENV=production`
+5. **Deploy!**
+
+### Option 3: Render (Free Tier Available)
+
+**Backend Deployment:**
+1. Create a new Web Service on [Render](https://render.com)
+2. Connect your repository
+3. Configure:
+   - Root Directory: `server`
+   - Build Command: `npm install`
+   - Start Command: `npm start`
+4. Add environment variables
+5. Deploy
+
+**Frontend Deployment:**
+1. Create a new Static Site
+2. Configure:
+   - Root Directory: `client`
+   - Build Command: `npm install && npm run build`
+   - Publish Directory: `dist`
+3. Add environment variable for API URL
+4. Deploy
+
+### Option 4: Heroku
+
+**Backend:**
+```bash
+cd server
+heroku create watchhive-api
+git subtree push --prefix server heroku main
+```
+
+**Frontend:**
+```bash
+cd client
+npm run build
+# Deploy dist folder to Netlify or Vercel
+```
+
+### Option 5: DigitalOcean App Platform
+
+1. **Create a new App**
+2. **Connect your repository**
+3. **Configure Components:**
+   
+   **Backend Component:**
+   - Type: Web Service
+   - Source Directory: `/server`
+   - Build Command: `npm install`
+   - Run Command: `npm start`
+   - HTTP Port: 5001
+   
+   **Frontend Component:**
+   - Type: Static Site
+   - Source Directory: `/client`
+   - Build Command: `npm install && npm run build`
+   - Output Directory: `dist`
+
+4. **Set Environment Variables**
+5. **Deploy**
+
+## 🔧 Pre-Deployment Checklist
+
+- [ ] Update API URLs in frontend to point to production backend
+- [ ] Set all environment variables on hosting platform
+- [ ] Test the build locally: `npm run build`
+- [ ] Ensure `.gitignore` excludes `node_modules` and `.env`
+- [ ] Update CORS settings in backend for production domain
+- [ ] Enable HTTPS on your hosting platform
+- [ ] Set up custom domain (optional)
+
+## 🌐 Environment Variables for Production
+
+**Backend (.env):**
+```env
+PORT=5001
+NODE_ENV=production
+FRONTEND_URL=https://your-frontend-domain.com
+```
+
+**Frontend:**
+Update the API calls to use production URL or use environment variables:
+```javascript
+const API_URL = import.meta.env.VITE_API_URL || '/api'
+```
+
+## 📝 Post-Deployment
+
+1. **Test all endpoints:**
+   - Visit your frontend URL
+   - Check if API calls work
+   - Test all buttons and features
+
+2. **Monitor logs:**
+   - Check server logs for errors
+   - Monitor performance
+
+3. **Set up monitoring:**
+   - Use services like Sentry for error tracking
+   - Set up uptime monitoring
+
+## 🔒 Security Considerations
+
+1. **Never commit `.env` files**
+2. **Use environment variables for all secrets**
+3. **Enable HTTPS**
+4. **Set proper CORS origins**
+5. **Add rate limiting to API endpoints**
+6. **Keep dependencies updated**
+
+## 💡 Tips
+
+- **Free Tiers:** Render, Railway, and Vercel offer free tiers perfect for this app
+- **Custom Domains:** Most platforms support custom domains
+- **Auto-Deploy:** Set up automatic deployments from your main branch
+- **Staging Environment:** Create a separate deployment for testing
+
+## 🆘 Troubleshooting
+
+**Issue: API calls failing**
+- Check if backend is running
+- Verify CORS settings
+- Check API URL in frontend
+
+**Issue: Build fails**
+- Ensure all dependencies are in `package.json`
+- Check Node.js version compatibility
+- Review build logs for specific errors
+
+**Issue: Port conflicts**
+- Use environment variables for ports
+- Let hosting platform assign ports automatically
+
+---
+
+Choose the deployment option that best fits your needs. Railway and Render are great for beginners, while Vercel is excellent for frontend-focused deployments!

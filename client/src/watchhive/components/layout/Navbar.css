@@ -1,0 +1,455 @@
+/* ============================================
+   Navbar Component - Minimalistic Design
+   ============================================ */
+
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky);
+    width: 100%;
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-light);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: all var(--transition-base);
+}
+
+/* Scrolled state */
+.navbar.scrolled {
+    box-shadow: var(--shadow-sm);
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+@media (prefers-color-scheme: dark) {
+    .navbar.scrolled {
+        background-color: rgba(10, 10, 10, 0.95);
+    }
+}
+
+/* ============================================
+   NAVBAR CONTAINER
+   ============================================ */
+
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-4) var(--space-6);
+    max-width: var(--container-7xl);
+    margin: 0 auto;
+    gap: var(--space-6);
+}
+
+@media (max-width: 768px) {
+    .navbar-container {
+        padding: var(--space-3) var(--space-4);
+    }
+}
+
+/* ============================================
+   NAVBAR BRAND/LOGO
+   ============================================ */
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-decoration: none;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: var(--font-bold);
+    transition: color var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.navbar-brand:hover {
+    color: var(--accent-primary);
+    text-decoration: none;
+}
+
+.navbar-logo {
+    width: 2rem;
+    height: 2rem;
+    object-fit: contain;
+}
+
+/* ============================================
+   NAVBAR NAVIGATION
+   ============================================ */
+
+.navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar-nav-item {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-nav-link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    color: var(--text-secondary);
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    transition: all var(--transition-fast);
+    white-space: nowrap;
+}
+
+.navbar-nav-link:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+    text-decoration: none;
+}
+
+.navbar-nav-link.active {
+    color: var(--accent-primary);
+    background-color: var(--accent-light);
+}
+
+.navbar-nav-link:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+}
+
+/* ============================================
+   NAVBAR ACTIONS
+   ============================================ */
+
+.navbar-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-left: auto;
+}
+
+/* ============================================
+   NAVBAR USER
+   ============================================ */
+
+.navbar-user {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-2);
+    border-radius: var(--radius-lg);
+    transition: background-color var(--transition-fast);
+    cursor: pointer;
+}
+
+.navbar-user:hover {
+    background-color: var(--bg-secondary);
+}
+
+.navbar-avatar {
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radius-full);
+    object-fit: cover;
+    border: 2px solid var(--border-light);
+    flex-shrink: 0;
+}
+
+.navbar-username {
+    font-size: var(--text-sm);
+    font-weight: var(--font-medium);
+    color: var(--text-primary);
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ============================================
+   NAVBAR MOBILE TOGGLE
+   ============================================ */
+
+.navbar-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 2.5rem;
+    height: 2.5rem;
+    padding: 0;
+    background: transparent;
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    flex-shrink: 0;
+}
+
+.navbar-toggle:hover {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-dark);
+}
+
+.navbar-toggle:focus-visible {
+    outline: 2px solid var(--accent-primary);
+    outline-offset: 2px;
+}
+
+.navbar-toggle-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 1.25rem;
+}
+
+.navbar-toggle-icon span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background-color: var(--text-primary);
+    border-radius: 2px;
+    transition: all var(--transition-base);
+}
+
+/* Toggle icon animation when open */
+.navbar-toggle.open .navbar-toggle-icon span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg);
+}
+
+.navbar-toggle.open .navbar-toggle-icon span:nth-child(2) {
+    opacity: 0;
+}
+
+.navbar-toggle.open .navbar-toggle-icon span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg);
+}
+
+/* ============================================
+   NAVBAR SEARCH
+   ============================================ */
+
+.navbar-search {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 400px;
+    flex: 1;
+}
+
+.navbar-search-input {
+    width: 100%;
+    padding: var(--space-2) var(--space-4) var(--space-2) var(--space-10);
+    font-size: var(--text-sm);
+    border: 1px solid var(--border-medium);
+    border-radius: var(--radius-lg);
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: all var(--transition-fast);
+}
+
+.navbar-search-input:focus {
+    outline: none;
+    border-color: var(--accent-primary);
+    background-color: var(--bg-primary);
+    box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+.navbar-search-icon {
+    position: absolute;
+    left: var(--space-3);
+    color: var(--text-tertiary);
+    pointer-events: none;
+}
+
+/* ============================================
+   MOBILE MENU
+   ============================================ */
+
+.navbar-mobile-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: var(--bg-primary);
+    border-bottom: 1px solid var(--border-light);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-4);
+    animation: slideDown var(--transition-slow) ease-out;
+}
+
+.navbar-mobile-menu.open {
+    display: block;
+}
+
+.navbar-mobile-menu .navbar-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-1);
+}
+
+.navbar-mobile-menu .navbar-nav-link {
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.navbar-mobile-menu .navbar-actions {
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border-light);
+    flex-direction: column;
+    align-items: stretch;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+
+@media (max-width: 768px) {
+    .navbar-toggle {
+        display: flex;
+    }
+
+    .navbar-nav {
+        display: none;
+    }
+
+    .navbar-search {
+        display: none;
+    }
+
+    .navbar-username {
+        display: none;
+    }
+
+    /* Show search in mobile menu */
+    .navbar-mobile-menu .navbar-search {
+        display: flex;
+        max-width: 100%;
+        margin-bottom: var(--space-4);
+    }
+}
+
+@media (min-width: 769px) {
+    .navbar-mobile-menu {
+        display: none !important;
+    }
+}
+
+/* ============================================
+   NAVBAR DROPDOWN
+   ============================================ */
+
+.navbar-dropdown {
+    position: relative;
+}
+
+.navbar-dropdown-toggle {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-base);
+    font-weight: var(--font-medium);
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.navbar-dropdown-toggle:hover {
+    color: var(--text-primary);
+    background-color: var(--bg-secondary);
+}
+
+.navbar-dropdown-menu {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    right: 0;
+    min-width: 200px;
+    background-color: var(--bg-primary);
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all var(--transition-base);
+    z-index: var(--z-dropdown);
+}
+
+.navbar-dropdown.open .navbar-dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.navbar-dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--text-primary);
+    text-decoration: none;
+    border-radius: var(--radius-lg);
+    transition: background-color var(--transition-fast);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.navbar-dropdown-item:hover {
+    background-color: var(--bg-secondary);
+    text-decoration: none;
+}
+
+.navbar-dropdown-divider {
+    height: 1px;
+    background-color: var(--border-light);
+    margin: var(--space-2) 0;
+}
+
+/* ============================================
+   ACCESSIBILITY
+   ============================================ */
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    .navbar,
+    .navbar-nav-link,
+    .navbar-dropdown-menu,
+    .navbar-mobile-menu {
+        transition: none;
+    }
+
+    .navbar-mobile-menu {
+        animation: none;
+    }
+}
+
+/* High contrast */
+@media (prefers-contrast: high) {
+    .navbar {
+        border-bottom-width: 2px;
+    }
+}
