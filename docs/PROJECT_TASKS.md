@@ -18,8 +18,12 @@
 - [x] Collaboration framework
 
 ### 🚧 **In Progress**
-- [ ] GitHub repository setup
-- [ ] Project board creation
+- [x] GitHub repository setup ✅
+- [x] Project board creation ✅
+- [x] TMDb API Integration ✅ (Completed: Feb 1, 2026)
+- [x] Follow System ✅ (Completed: Feb 1, 2026)
+- [x] Like System ✅ (Completed: Feb 1, 2026)
+- [ ] Comment System (Next up)
 
 ---
 
