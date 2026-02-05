@@ -1,5 +1,5 @@
 services:
-  # Backend API (Standard Node.js Web Service)
+  # Backend API
   - type: web
     name: watchhive-api
     env: node
@@ -30,12 +30,12 @@ services:
         sync: false
       - key: FRONTEND_URL
         fromService:
-          type: static
+          type: web
           name: watchhive-client
           property: url
 
-  # Frontend Client (Static Site)
-  - type: static
+  # Frontend Client
+  - type: web
     name: watchhive-client
     env: static
     plan: free
