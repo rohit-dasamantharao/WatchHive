@@ -1,5 +1,8 @@
 version: 1
 
+services:
+  # Backend API
+  - type: web
     name: watchhive-api
     env: node
     plan: free
@@ -33,7 +36,6 @@ version: 1
           name: watchhive-client
           property: url
 
-
 static_sites:
   # Frontend Client
   - name: watchhive-client
@@ -49,14 +51,11 @@ static_sites:
           property: url
         suffix: /api/v1
 
-
 kv:
   - name: watchhive-cache
     plan: free
-
 
 databases:
   - name: watchhive-db
     plan: free
     region: singapore
-
