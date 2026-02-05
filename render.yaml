@@ -4,7 +4,7 @@ services:
     name: watchhive-api
     env: node
     plan: free
-    region: singapore # Change to your preferred region
+    region: singapore
     buildCommand: cd server && npm install && npm run build && npx prisma generate
     startCommand: cd server && npx prisma migrate deploy && npm run start
     healthCheckPath: /health
@@ -27,10 +27,10 @@ services:
       - key: JWT_REFRESH_SECRET
         generateValue: true
       - key: TMDB_API_KEY
-        sync: false # Render will prompt the user for this value
+        sync: false
       - key: FRONTEND_URL
         fromService:
-          type: static_site
+          type: static
           name: watchhive-client
           property: url
 
