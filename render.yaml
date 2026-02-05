@@ -36,9 +36,9 @@ services:
           name: watchhive-client
           property: url
 
-static_sites:
   # Frontend Client
-  - name: watchhive-client
+  - type: static
+    name: watchhive-client
     env: static
     plan: free
     buildCommand: cd client && npm install && npm run build
@@ -49,9 +49,9 @@ static_sites:
           type: web
           name: watchhive-api
           property: url
-        suffix: /api/v1
+          suffix: /api/v1
 
-kv:
+redis:
   - name: watchhive-cache
     plan: free
 
