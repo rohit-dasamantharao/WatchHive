@@ -34,9 +34,9 @@ services:
           name: watchhive-client
           property: url
 
-static_sites:
-  # Frontend Client (Static Site for Performance)
-  - name: watchhive-client
+  # Frontend Client (Static Site)
+  - type: static
+    name: watchhive-client
     env: static
     plan: free
     region: singapore
@@ -50,10 +50,13 @@ static_sites:
           property: url
         suffix: /api/v1
 
+  # Redis Cache
+  - type: redis
+    name: watchhive-cache
+    plan: free
+    region: singapore
+
 databases:
   - name: watchhive-db
     plan: free
-
-kv:
-  - name: watchhive-cache
-    plan: free
+    region: singapore
