@@ -4,20 +4,7 @@ This guide covers various deployment options for your full-stack WatchHive appli
 
 ## 🚀 Quick Deployment Options
 
-### Option 1: Vercel (Recommended for Frontend + Serverless Backend)
-
-**Frontend Deployment:**
-1. Install Vercel CLI: `npm i -g vercel`
-2. Navigate to client folder: `cd client`
-3. Build: `npm run build`
-4. Deploy: `vercel --prod`
-
-**Backend as Serverless Function:**
-1. Create `api` folder in root
-2. Move server logic to serverless functions
-3. Deploy with Vercel
-
-### Option 2: Railway (Full-Stack Deployment)
+### Option 1: Railway (Full-Stack Deployment)
 
 Railway is perfect for deploying both frontend and backend together.
 
@@ -32,7 +19,7 @@ Railway is perfect for deploying both frontend and backend together.
    - `NODE_ENV=production`
 5. **Deploy!**
 
-### Option 3: Render (Free Tier Available)
+### Option 2: Render (Free Tier Available)
 
 **Backend Deployment:**
 1. Create a new Web Service on [Render](https://render.com)
@@ -53,7 +40,7 @@ Railway is perfect for deploying both frontend and backend together.
 3. Add environment variable for API URL
 4. Deploy
 
-### Option 4: Heroku
+### Option 3: Heroku
 
 **Backend:**
 ```bash
@@ -66,10 +53,10 @@ git subtree push --prefix server heroku main
 ```bash
 cd client
 npm run build
-# Deploy dist folder to Netlify or Vercel
+# Deploy dist folder to Netlify or similar
 ```
 
-### Option 5: DigitalOcean App Platform
+### Option 4: DigitalOcean App Platform
 
 1. **Create a new App**
 2. **Connect your repository**
@@ -142,7 +129,7 @@ const API_URL = import.meta.env.VITE_API_URL || '/api'
 
 ## 💡 Tips
 
-- **Free Tiers:** Render, Railway, and Vercel offer free tiers perfect for this app
+- **Free Tiers:** Render and Railway offer free tiers perfect for this app
 - **Custom Domains:** Most platforms support custom domains
 - **Auto-Deploy:** Set up automatic deployments from your main branch
 - **Staging Environment:** Create a separate deployment for testing
@@ -165,4 +152,4 @@ const API_URL = import.meta.env.VITE_API_URL || '/api'
 
 ---
 
-Choose the deployment option that best fits your needs. Railway and Render are great for beginners, while Vercel is excellent for frontend-focused deployments!
+Choose the deployment option that best fits your needs. Railway and Render are great for beginners!

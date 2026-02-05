@@ -1132,33 +1132,14 @@ backend/tests/
 
 ## 🚢 Deployment Strategy
 
-### Frontend Deployment (Vercel)
-
-```bash
-# Install Vercel CLI
-npm i -g vercel
-
-# Deploy
-vercel --prod
-```
-
-**vercel.json**:
-```json
-{
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite",
-  "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
-  ]
-}
-```
-
 ### Backend Deployment
 
 **Options**:
 - Railway
-- DigitalOcean App Platform
+- Render
+- DigitalOcean
+- Heroku
+- Docker/Self-hosted
 - AWS EC2
 - Heroku
 
