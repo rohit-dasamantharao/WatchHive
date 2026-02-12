@@ -539,6 +539,36 @@
     height: 1.25rem;
 }
 
+/* Google Sign-In Container */
+.google-signin-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: opacity var(--transition-fast);
+}
+
+.google-signin-container.disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Ensure the Google-rendered iframe/button stretches full width */
+.google-signin-container > div {
+    width: 100% !important;
+}
+
+.google-signin-container > div > div {
+    width: 100% !important;
+}
+
+.google-signin-container iframe {
+    width: 100% !important;
+    color-scheme: auto;
+}
+
 /* ============================================
    MOBILE OPTIMIZATIONS
    ============================================ */

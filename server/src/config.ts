@@ -26,6 +26,10 @@ export const config = {
         baseUrl: process.env.TMDB_BASE_URL || 'https://api.themoviedb.org/3',
     },
 
+    google: {
+        clientId: process.env.GOOGLE_CLIENT_ID || '',
+    },
+
     redis: {
         url: process.env.REDIS_URL || 'redis://localhost:6379',
     },

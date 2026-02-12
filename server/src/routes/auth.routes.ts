@@ -50,6 +50,7 @@ const refreshValidation = [
 // Routes
 router.post('/register', registerValidation, validate, authController.register);
 router.post('/login', loginValidation, validate, authController.login);
+router.post('/google', authController.googleLogin);
 router.post('/refresh', refreshValidation, validate, authController.refresh);
 router.post('/logout', authController.logout);
 

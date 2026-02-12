@@ -11,6 +11,10 @@ export interface RegisterData {
     displayName?: string;
 }
 
+export interface GoogleLoginData {
+    idToken: string;
+}
+
 export interface AuthResponse {
     user: {
         id: string;
@@ -21,6 +25,7 @@ export interface AuthResponse {
     };
     accessToken: string;
     refreshToken: string;
+    isNewUser?: boolean;
 }
 
 export interface AuthContextType {
@@ -29,6 +34,7 @@ export interface AuthContextType {
     isLoading: boolean;
     login: (credentials: LoginCredentials) => Promise<void>;
     register: (data: RegisterData) => Promise<void>;
+    googleLogin: (idToken: string) => Promise<void>;
     logout: () => void;
     updateUser: (user: AuthResponse['user']) => void;
 }

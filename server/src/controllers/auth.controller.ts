@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { authService } from '../services/auth.service.js';
+import { googleAuthService } from '../services/google-auth.service.js';
 
 export const authController = {
     async register(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -31,6 +32,23 @@ export const authController = {
         }
     },
 
+    async googleLogin(req: Request, res: Response, next: NextFunction): Promise<void> {
+        try {
+            const { idToken } = req.body;
+
+            if (!idToken) {
+                res.status(400).json({ error: 'Google ID token is required' });
+                return;
+            }
+
+            const result = await googleAuthService.loginOrRegister(idToken);
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+    },
+
     async refresh(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
             const { refreshToken } = req.body;
@@ -54,3 +72,4 @@ export const authController = {
         res.status(200).json({ message: 'Logged out successfully' });
     },
 };
+

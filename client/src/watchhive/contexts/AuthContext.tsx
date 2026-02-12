@@ -18,7 +18,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             }
 
             // If we have a token, we consider the user authenticated
-            // In a real app, you might want to validate the token with the server
             const storedUser = localStorage.getItem('user');
             if (storedUser) {
                 setUser(JSON.parse(storedUser));
@@ -49,6 +48,16 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
     };
 
+    const googleLogin = async (idToken: string) => {
+        try {
+            const response = await authService.googleLogin(idToken);
+            setUser(response.user);
+            localStorage.setItem('user', JSON.stringify(response.user));
+        } catch (error) {
+            throw error;
+        }
+    };
+
     const logout = () => {
         authService.logout();
         setUser(null);
@@ -66,6 +75,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         isLoading,
         login,
         register,
+        googleLogin,
         logout,
         updateUser,
     };

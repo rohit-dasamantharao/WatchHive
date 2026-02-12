@@ -102,6 +102,11 @@ export const authService = {
             throw new AppError('Invalid email or password', 401);
         }
 
+        // If user has no password (Google-only account), suggest Google login
+        if (!user.passwordHash) {
+            throw new AppError('This account uses Google Sign-In. Please sign in with Google.', 400);
+        }
+
         // Verify password
         const isPasswordValid = await comparePassword(
             data.password,

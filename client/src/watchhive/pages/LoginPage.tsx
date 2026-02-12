@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts';
+import { GoogleSignInButton } from '../components/auth';
 import './AuthPages.css';
 
 export const LoginPage: React.FC = () => {
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const { login, googleLogin } = useAuth();
 
     const [formData, setFormData] = useState({
         email: '',
@@ -14,6 +15,7 @@ export const LoginPage: React.FC = () => {
 
     const [errors, setErrors] = useState<{ email?: string; password?: string; general?: string }>({});
     const [isLoading, setIsLoading] = useState(false);
+    const [isGoogleLoading, setIsGoogleLoading] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -61,6 +63,26 @@ export const LoginPage: React.FC = () => {
         }
     };
 
+    const handleGoogleSuccess = async (idToken: string) => {
+        setIsGoogleLoading(true);
+        setErrors({});
+
+        try {
+            await googleLogin(idToken);
+            navigate('/watch-hive/feed');
+        } catch (error: any) {
+            setErrors({
+                general: error.response?.data?.error || 'Google sign-in failed. Please try again.',
+            });
+        } finally {
+            setIsGoogleLoading(false);
+        }
+    };
+
+    const handleGoogleError = (error: string) => {
+        setErrors({ general: error });
+    };
+
     return (
         <div className="auth-page">
             <div className="auth-container">
@@ -85,6 +107,18 @@ export const LoginPage: React.FC = () => {
                             <span>{errors.general}</span>
                         </div>
                     )}
+
+                    {/* Google Sign-In */}
+                    <div className="auth-social-buttons">
+                        <GoogleSignInButton
+                            onSuccess={handleGoogleSuccess}
+                            onError={handleGoogleError}
+                            text="signin_with"
+                            disabled={isLoading || isGoogleLoading}
+                        />
+                    </div>
+
+                    <div className="auth-divider">or</div>
 
                     <form onSubmit={handleSubmit} className="auth-form">
                         <div className="auth-form-group">
@@ -141,7 +175,7 @@ export const LoginPage: React.FC = () => {
                             <button
                                 type="submit"
                                 className={`auth-submit-btn ${isLoading ? 'loading' : ''}`}
-                                disabled={isLoading}
+                                disabled={isLoading || isGoogleLoading}
                             >
                                 {isLoading ? 'Signing in...' : 'Sign In'}
                             </button>
