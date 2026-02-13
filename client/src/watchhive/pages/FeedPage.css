@@ -7,17 +7,43 @@
 
 .feed-page__header {
     margin-bottom: var(--wh-space-8);
-    text-align: center;
 }
 
-.feed-page__header h1 {
+.feed-page__welcome {
+    display: flex;
+    align-items: center;
+    gap: var(--wh-space-6);
+    justify-content: center;
+}
+
+.feed-page__greeting {
+    text-align: left;
+}
+
+.feed-page__greeting h1 {
     font-size: var(--wh-font-size-4xl);
     margin-bottom: var(--wh-space-3);
 }
 
-.feed-page__header p {
+.feed-page__greeting p {
     font-size: var(--wh-font-size-lg);
     color: var(--wh-text-secondary);
+    margin: 0;
+}
+
+@media (max-width: 640px) {
+    .feed-page__welcome {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .feed-page__greeting {
+        text-align: center;
+    }
+
+    .feed-page__greeting h1 {
+        font-size: var(--wh-font-size-2xl);
+    }
 }
 
 .feed-page__content {

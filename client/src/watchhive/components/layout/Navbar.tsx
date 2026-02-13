@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts';
+import { Avatar } from '../common';
 import { Button } from '../common';
 import './Navbar.css';
 
@@ -38,7 +39,14 @@ export const Navbar: React.FC = () => {
                     <div className="navbar__actions">
                         {isAuthenticated ? (
                             <div className="navbar__user">
-                                <span className="navbar__username">{user?.displayName || user?.username}</span>
+                                <Link to="/watch-hive/profile" className="navbar__user-link">
+                                    <Avatar
+                                        src={user?.profilePictureUrl}
+                                        name={user?.displayName || user?.username || '?'}
+                                        size="sm"
+                                    />
+                                    <span className="navbar__username">{user?.displayName || user?.username}</span>
+                                </Link>
                                 <Button variant="ghost" size="sm" onClick={handleLogout}>
                                     Logout
                                 </Button>

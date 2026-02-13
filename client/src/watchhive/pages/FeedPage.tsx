@@ -1,5 +1,6 @@
 import React from 'react';
 import { useAuth } from '../contexts';
+import { Avatar } from '../components/common';
 import './FeedPage.css';
 
 export const FeedPage: React.FC = () => {
@@ -9,10 +10,20 @@ export const FeedPage: React.FC = () => {
         <div className="feed-page">
             <div className="container">
                 <div className="feed-page__header">
-                    <h1>
-                        Welcome back, <span className="gradient-text">{user?.displayName || user?.username}</span>!
-                    </h1>
-                    <p>Your personalized feed of movie and TV show activity</p>
+                    <div className="feed-page__welcome">
+                        <Avatar
+                            src={user?.profilePictureUrl}
+                            name={user?.displayName || user?.username || '?'}
+                            size="lg"
+                            showBorder
+                        />
+                        <div className="feed-page__greeting">
+                            <h1>
+                                Welcome back, <span className="gradient-text">{user?.displayName || user?.username}</span>!
+                            </h1>
+                            <p>Your personalized feed of movie and TV show activity</p>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="feed-page__content">

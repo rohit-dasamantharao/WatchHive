@@ -45,3 +45,6 @@ coverage/
 # Production
 /build
 /dist
+
+# Uploads (user-uploaded files)
+uploads/
