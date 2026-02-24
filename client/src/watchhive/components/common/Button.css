@@ -1,327 +1,283 @@
 /* ============================================
-   Button Component - Minimalistic Design
+   WatchHive Button System — Consistent Hierarchy
+   ============================================
+   
+   Variants:
+   - primary  : Gradient indigo/purple CTA — "Add Entry", "Save", "Get Started"
+   - secondary: Subtle grey fill — general-purpose, low emphasis
+   - outline  : Bordered, no fill — medium emphasis actions
+   - ghost    : Transparent, text-only — minimal emphasis (nav items, utility)
+   - danger   : Red destructive — "Delete", "Remove"
+   
    ============================================ */
 
-.btn {
-    /* Base Styles */
+/* ── Base button reset ── */
+.wh-button {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: var(--space-2);
-
-    font-family: var(--font-sans);
-    font-size: var(--text-base);
-    font-weight: var(--font-medium);
-    line-height: var(--leading-tight);
+    gap: 0.4rem;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.4;
     text-align: center;
     text-decoration: none;
     white-space: nowrap;
-
     border: 1px solid transparent;
-    border-radius: var(--radius-lg);
+    border-radius: 10px;
     cursor: pointer;
     user-select: none;
-
-    transition: all var(--transition-base);
-
-    /* Default Size */
-    padding: var(--space-3) var(--space-6);
-    min-height: 2.75rem;
-
-    /* Prevent text selection */
     -webkit-tap-highlight-color: transparent;
+    transition: all 0.2s ease;
+
+    /* Default = md */
+    padding: 0.55rem 1.15rem;
+    font-size: 0.875rem;
 }
 
-.btn:focus-visible {
-    outline: 2px solid var(--accent-primary);
+.wh-button:focus-visible {
+    outline: 2px solid #6366f1;
     outline-offset: 2px;
 }
 
 /* ============================================
-   VARIANTS
+   VARIANT: PRIMARY (the hero CTA)
    ============================================ */
 
-/* Primary Button */
-.btn-primary {
-    background-color: var(--accent-primary);
-    color: var(--neutral-0);
-    border-color: var(--accent-primary);
+.wh-button--primary {
+    color: #fff;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border-color: transparent;
+    box-shadow: 0 2px 8px rgba(99, 102, 241, 0.3);
 }
 
-.btn-primary:hover:not(:disabled) {
-    background-color: var(--accent-hover);
-    border-color: var(--accent-hover);
+.wh-button--primary:hover:not(:disabled) {
+    box-shadow: 0 4px 16px rgba(99, 102, 241, 0.4);
     transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
 }
 
-.btn-primary:active:not(:disabled) {
+.wh-button--primary:active:not(:disabled) {
     transform: translateY(0);
-    box-shadow: var(--shadow-sm);
+    box-shadow: 0 2px 6px rgba(99, 102, 241, 0.25);
 }
 
-/* Secondary Button */
-.btn-secondary {
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
-    border-color: var(--border-medium);
+/* ============================================
+   VARIANT: SECONDARY (quiet, everyday actions)
+   ============================================ */
+
+.wh-button--secondary {
+    color: #374151;
+    background: #f3f4f6;
+    border-color: rgba(0, 0, 0, 0.06);
 }
 
-.btn-secondary:hover:not(:disabled) {
-    background-color: var(--bg-tertiary);
-    border-color: var(--border-dark);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-sm);
+.wh-button--secondary:hover:not(:disabled) {
+    background: #e5e7eb;
+    border-color: rgba(0, 0, 0, 0.1);
 }
 
-.btn-secondary:active:not(:disabled) {
-    transform: translateY(0);
+.wh-button--secondary:active:not(:disabled) {
+    background: #d1d5db;
 }
 
-/* Outline Button */
-.btn-outline {
-    background-color: transparent;
-    color: var(--accent-primary);
-    border-color: var(--accent-primary);
+@media (prefers-color-scheme: dark) {
+    .wh-button--secondary {
+        color: #e5e7eb;
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .wh-button--secondary:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.12);
+        border-color: rgba(255, 255, 255, 0.12);
+    }
 }
 
-.btn-outline:hover:not(:disabled) {
-    background-color: var(--accent-light);
-    color: var(--accent-hover);
-    border-color: var(--accent-hover);
+/* ============================================
+   VARIANT: OUTLINE (medium emphasis)
+   ============================================ */
+
+.wh-button--outline {
+    color: #6366f1;
+    background: transparent;
+    border-color: #6366f1;
 }
 
-.btn-outline:active:not(:disabled) {
-    background-color: var(--accent-primary);
-    color: var(--neutral-0);
+.wh-button--outline:hover:not(:disabled) {
+    background: rgba(99, 102, 241, 0.06);
+    border-color: #4f46e5;
+    color: #4f46e5;
 }
 
-/* Ghost Button */
-.btn-ghost {
-    background-color: transparent;
-    color: var(--text-primary);
+.wh-button--outline:active:not(:disabled) {
+    background: rgba(99, 102, 241, 0.12);
+}
+
+@media (prefers-color-scheme: dark) {
+    .wh-button--outline {
+        color: #818cf8;
+        border-color: #818cf8;
+    }
+
+    .wh-button--outline:hover:not(:disabled) {
+        color: #a5b4fc;
+        border-color: #a5b4fc;
+        background: rgba(99, 102, 241, 0.12);
+    }
+}
+
+/* ============================================
+   VARIANT: GHOST (minimal, utility buttons)
+   ============================================ */
+
+.wh-button--ghost {
+    color: #6b7280;
+    background: transparent;
     border-color: transparent;
 }
 
-.btn-ghost:hover:not(:disabled) {
-    background-color: var(--bg-secondary);
-    color: var(--text-primary);
+.wh-button--ghost:hover:not(:disabled) {
+    color: #374151;
+    background: rgba(0, 0, 0, 0.04);
 }
 
-.btn-ghost:active:not(:disabled) {
-    background-color: var(--bg-tertiary);
+.wh-button--ghost:active:not(:disabled) {
+    background: rgba(0, 0, 0, 0.08);
 }
 
-/* Danger/Destructive Button */
-.btn-danger {
-    background-color: var(--error-500);
-    color: var(--neutral-0);
-    border-color: var(--error-500);
+@media (prefers-color-scheme: dark) {
+    .wh-button--ghost {
+        color: #9ca3af;
+    }
+
+    .wh-button--ghost:hover:not(:disabled) {
+        color: #e5e7eb;
+        background: rgba(255, 255, 255, 0.06);
+    }
 }
 
-.btn-danger:hover:not(:disabled) {
-    background-color: var(--error-600);
-    border-color: var(--error-600);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
+/* ============================================
+   VARIANT: DANGER (destructive actions)
+   ============================================ */
+
+.wh-button--danger {
+    color: #ef4444;
+    background: rgba(239, 68, 68, 0.08);
+    border-color: rgba(239, 68, 68, 0.15);
 }
 
-.btn-danger:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: var(--shadow-sm);
+.wh-button--danger:hover:not(:disabled) {
+    color: #fff;
+    background: #ef4444;
+    border-color: #ef4444;
+    box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
-/* Success Button */
-.btn-success {
-    background-color: var(--success-500);
-    color: var(--neutral-0);
-    border-color: var(--success-500);
+.wh-button--danger:active:not(:disabled) {
+    background: #dc2626;
+    box-shadow: 0 1px 4px rgba(239, 68, 68, 0.2);
 }
 
-.btn-success:hover:not(:disabled) {
-    background-color: var(--success-600);
-    border-color: var(--success-600);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-md);
-}
+@media (prefers-color-scheme: dark) {
+    .wh-button--danger {
+        color: #f87171;
+        background: rgba(239, 68, 68, 0.1);
+        border-color: rgba(239, 68, 68, 0.15);
+    }
 
-.btn-success:active:not(:disabled) {
-    transform: translateY(0);
-    box-shadow: var(--shadow-sm);
+    .wh-button--danger:hover:not(:disabled) {
+        color: #fff;
+        background: #ef4444;
+        border-color: #ef4444;
+    }
 }
 
 /* ============================================
    SIZES
    ============================================ */
 
-/* Small */
-.btn-sm {
-    padding: var(--space-2) var(--space-4);
-    font-size: var(--text-sm);
-    min-height: 2.25rem;
-    border-radius: var(--radius-md);
+.wh-button--sm {
+    padding: 0.35rem 0.75rem;
+    font-size: 0.8rem;
+    border-radius: 8px;
+    gap: 0.3rem;
 }
 
-/* Medium (Default) */
-.btn-md {
-    padding: var(--space-3) var(--space-6);
-    font-size: var(--text-base);
-    min-height: 2.75rem;
+.wh-button--md {
+    padding: 0.55rem 1.15rem;
+    font-size: 0.875rem;
 }
 
-/* Large */
-.btn-lg {
-    padding: var(--space-4) var(--space-8);
-    font-size: var(--text-lg);
-    min-height: 3.25rem;
-    border-radius: var(--radius-xl);
-}
-
-/* Extra Large */
-.btn-xl {
-    padding: var(--space-5) var(--space-10);
-    font-size: var(--text-xl);
-    min-height: 3.75rem;
-    border-radius: var(--radius-xl);
+.wh-button--lg {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.95rem;
+    border-radius: 12px;
+    gap: 0.5rem;
 }
 
 /* ============================================
    STATES
    ============================================ */
 
-/* Disabled */
-.btn:disabled,
-.btn.disabled {
+.wh-button:disabled,
+.wh-button--disabled {
     opacity: 0.5;
     cursor: not-allowed;
     pointer-events: none;
 }
 
-/* Loading */
-.btn.loading {
+.wh-button--full {
+    display: flex;
+    width: 100%;
+}
+
+/* ── Loading ── */
+.wh-button--loading {
     position: relative;
-    color: transparent;
     pointer-events: none;
 }
 
-.btn.loading::after {
-    content: '';
-    position: absolute;
-    width: 1rem;
-    height: 1rem;
-    top: 50%;
-    left: 50%;
-    margin-left: -0.5rem;
-    margin-top: -0.5rem;
-    border: 2px solid currentColor;
-    border-radius: 50%;
-    border-top-color: transparent;
-    animation: spin 0.6s linear infinite;
-    color: var(--neutral-0);
+.wh-button__spinner {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 0.3rem;
 }
 
-.btn-secondary.loading::after,
-.btn-outline.loading::after,
-.btn-ghost.loading::after {
-    color: var(--accent-primary);
+.wh-spinner {
+    width: 16px;
+    height: 16px;
+    animation: wh-spin 0.7s linear infinite;
 }
 
-@keyframes spin {
+.wh-spinner__circle {
+    stroke: currentColor;
+    stroke-dasharray: 42;
+    stroke-dashoffset: 14;
+    stroke-linecap: round;
+}
+
+.wh-button__text--loading {
+    opacity: 0.7;
+}
+
+@keyframes wh-spin {
     to {
         transform: rotate(360deg);
     }
 }
 
 /* ============================================
-   FULL WIDTH
-   ============================================ */
-
-.btn-block {
-    display: flex;
-    width: 100%;
-}
-
-/* ============================================
-   ICON BUTTONS
-   ============================================ */
-
-.btn-icon {
-    padding: var(--space-3);
-    min-width: 2.75rem;
-    aspect-ratio: 1;
-}
-
-.btn-icon.btn-sm {
-    padding: var(--space-2);
-    min-width: 2.25rem;
-}
-
-.btn-icon.btn-lg {
-    padding: var(--space-4);
-    min-width: 3.25rem;
-}
-
-.btn-icon.btn-xl {
-    padding: var(--space-5);
-    min-width: 3.75rem;
-}
-
-/* ============================================
-   BUTTON GROUPS
-   ============================================ */
-
-.btn-group {
-    display: inline-flex;
-    align-items: center;
-    gap: 0;
-}
-
-.btn-group .btn {
-    border-radius: 0;
-    margin-left: -1px;
-}
-
-.btn-group .btn:first-child {
-    border-top-left-radius: var(--radius-lg);
-    border-bottom-left-radius: var(--radius-lg);
-    margin-left: 0;
-}
-
-.btn-group .btn:last-child {
-    border-top-right-radius: var(--radius-lg);
-    border-bottom-right-radius: var(--radius-lg);
-}
-
-.btn-group .btn:hover:not(:disabled) {
-    z-index: 1;
-}
-
-/* ============================================
-   MOBILE OPTIMIZATIONS
+   MOBILE
    ============================================ */
 
 @media (max-width: 640px) {
-    .btn {
-        font-size: var(--text-sm);
-        padding: var(--space-3) var(--space-5);
+    .wh-button--sm {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.78rem;
     }
 
-    .btn-lg {
-        font-size: var(--text-base);
-        padding: var(--space-4) var(--space-6);
-    }
-
-    /* Make buttons more touch-friendly on mobile */
-    .btn {
-        min-height: 3rem;
-    }
-
-    .btn-sm {
-        min-height: 2.5rem;
-    }
-
-    .btn-lg {
-        min-height: 3.5rem;
+    .wh-button--md {
+        padding: 0.55rem 1rem;
     }
 }
 
@@ -329,26 +285,12 @@
    ACCESSIBILITY
    ============================================ */
 
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .btn {
-        border-width: 2px;
-    }
-}
-
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-    .btn {
+    .wh-button {
         transition: none;
     }
 
-    .btn:hover:not(:disabled) {
+    .wh-button:hover:not(:disabled) {
         transform: none;
-    }
-
-    .btn.loading::after {
-        animation: none;
-        border-top-color: currentColor;
-        opacity: 0.5;
     }
 }

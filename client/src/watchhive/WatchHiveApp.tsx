@@ -2,7 +2,10 @@ import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts';
 import { Navbar } from './components/layout';
-import { LoginPage, SignupPage, ProfilePage, FeedPage, EntriesPage } from './pages';
+import { DonationButton, OfflineBanner } from './components/common';
+import { WatchlistProvider } from './contexts/WatchlistContext';
+import { NotificationProvider } from './contexts/NotificationContext';
+import { LoginPage, SignupPage, ProfilePage, FeedPage, EntriesPage, LandingPage, SearchUsersPage, UserProfilePage, MindLensPage, NotificationsPage } from './pages';
 import './index.css';
 
 // Protected Route Component
@@ -65,6 +68,7 @@ const AppRoutes: React.FC = () => {
 
     return (
         <>
+            <OfflineBanner />
             {isAuthenticated && <Navbar />}
             <Routes>
                 {/* Public Routes */}
@@ -110,11 +114,56 @@ const AppRoutes: React.FC = () => {
                         </ProtectedRoute>
                     }
                 />
+                <Route
+                    path="/watch-hive/profile/:id"
+                    element={
+                        <ProtectedRoute>
+                            <UserProfilePage />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/watch-hive/search"
+                    element={
+                        <ProtectedRoute>
+                            <SearchUsersPage />
+                        </ProtectedRoute>
+                    }
+                />
+                <Route
+                    path="/watch-hive/mindlens"
+                    element={
+                        <ProtectedRoute>
+                            <MindLensPage />
+                        </ProtectedRoute>
+                    }
+                />
+
+                <Route
+                    path="/watch-hive/notifications"
+                    element={
+                        <ProtectedRoute>
+                            <NotificationsPage />
+                        </ProtectedRoute>
+                    }
+                />
+
+                {/* Landing Page — shown to unauthenticated visitors */}
+                <Route
+                    path="/watch-hive"
+                    element={
+                        isAuthenticated ? (
+                            <Navigate to="/watch-hive/feed" replace />
+                        ) : (
+                            <LandingPage />
+                        )
+                    }
+                />
 
                 {/* Default Redirect */}
-                <Route path="/watch-hive" element={<Navigate to="/watch-hive/feed" replace />} />
-                <Route path="*" element={<Navigate to="/watch-hive/feed" replace />} />
+                <Route path="*" element={<Navigate to="/watch-hive" replace />} />
             </Routes>
+            <DonationButton />
         </>
     );
 };
@@ -124,7 +173,11 @@ export const WatchHiveApp: React.FC = () => {
     return (
         <BrowserRouter>
             <AuthProvider>
-                <AppRoutes />
+                <NotificationProvider>
+                    <WatchlistProvider>
+                        <AppRoutes />
+                    </WatchlistProvider>
+                </NotificationProvider>
             </AuthProvider>
         </BrowserRouter>
     );

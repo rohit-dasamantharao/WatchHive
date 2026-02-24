@@ -1,6 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { authMiddleware } from '../middleware/auth.middleware.js';
 import prisma from '../utils/prisma.js';
+import notificationService from '../services/notification.service.js';
 
 const router = Router();
 
@@ -46,9 +47,16 @@ router.post('/:entryId', authMiddleware, async (req: Request, res: Response): Pr
                 entryId,
             },
             include: {
+                user: {
+                    select: {
+                        username: true,
+                        displayName: true
+                    }
+                },
                 entry: {
                     select: {
                         id: true,
+                        userId: true,
                         title: true,
                         type: true,
                     },
@@ -60,6 +68,17 @@ router.post('/:entryId', authMiddleware, async (req: Request, res: Response): Pr
         const likeCount = await prisma.like.count({
             where: { entryId },
         });
+
+        // Notify the entry owner
+        if (like.entry.userId !== userId) {
+            await notificationService.createNotification(like.entry.userId, 'LIKE', {
+                actorId: userId,
+                actorName: like.user.displayName || like.user.username,
+                entryId: like.entry.id,
+                entryTitle: like.entry.title,
+                type: like.entry.type
+            });
+        }
 
         res.status(201).json({
             message: 'Successfully liked entry',

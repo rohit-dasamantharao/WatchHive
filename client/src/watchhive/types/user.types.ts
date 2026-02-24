@@ -10,6 +10,12 @@ export interface User {
     isPrivate: boolean;
     createdAt: string;
     updatedAt: string;
+    isFollowing?: boolean;
+    _count?: {
+        followers: number;
+        following: number;
+        entries: number;
+    };
 }
 
 export interface UserStats {

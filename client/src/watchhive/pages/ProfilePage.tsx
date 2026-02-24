@@ -1,7 +1,8 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useAuth } from '../contexts';
 import { userService } from '../services';
 import { Avatar, Card, Button } from '../components/common';
+import { FollowListModal, WatchlistGrid } from '../components/profile';
 import './ProfilePage.css';
 
 export const ProfilePage: React.FC = () => {
@@ -10,6 +11,14 @@ export const ProfilePage: React.FC = () => {
     const [uploading, setUploading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [successMsg, setSuccessMsg] = useState<string | null>(null);
+    const [stats, setStats] = useState<{ followersCount: number; followingCount: number } | null>(null);
+    const [modalConfig, setModalConfig] = useState<{ isOpen: boolean; type: 'followers' | 'following' }>({ isOpen: false, type: 'followers' });
+
+    useEffect(() => {
+        if (user) {
+            userService.getFollowStats(user.id).then(setStats).catch(console.error);
+        }
+    }, [user?.id]);
 
     if (!user) {
         return null;
@@ -89,6 +98,7 @@ export const ProfilePage: React.FC = () => {
 
                 <div className="profile-page__content">
                     <Card variant="glass" className="profile-card">
+                        <div className="profile-banner"></div>
                         <div className="profile-card__header">
                             <div className="profile-avatar-section">
                                 <div className="profile-avatar-wrapper">
@@ -119,7 +129,7 @@ export const ProfilePage: React.FC = () => {
 
                                 <div className="profile-avatar-actions">
                                     <Button
-                                        variant="ghost"
+                                        variant="secondary"
                                         size="sm"
                                         onClick={handleAvatarClick}
                                         disabled={uploading}
@@ -128,7 +138,7 @@ export const ProfilePage: React.FC = () => {
                                     </Button>
                                     {user.profilePictureUrl && (
                                         <Button
-                                            variant="ghost"
+                                            variant="danger"
                                             size="sm"
                                             onClick={handleRemoveAvatar}
                                             disabled={uploading}
@@ -142,6 +152,18 @@ export const ProfilePage: React.FC = () => {
                             <div className="profile-info">
                                 <h2>{user.displayName || user.username}</h2>
                                 <p className="profile-username">@{user.username}</p>
+                                {stats && (
+                                    <div className="profile-stats">
+                                        <div className="stat-item" onClick={() => setModalConfig({ isOpen: true, type: 'followers' })}>
+                                            <b>{stats.followersCount}</b>
+                                            <span>Followers</span>
+                                        </div>
+                                        <div className="stat-item" onClick={() => setModalConfig({ isOpen: true, type: 'following' })}>
+                                            <b>{stats.followingCount}</b>
+                                            <span>Following</span>
+                                        </div>
+                                    </div>
+                                )}
                             </div>
                         </div>
 
@@ -158,8 +180,23 @@ export const ProfilePage: React.FC = () => {
                             </div>
                         </div>
                     </Card>
+
+                    <div className="profile-page__section mt-8">
+                        <h2>
+                            <span>🔖</span> My Watchlist
+                        </h2>
+                        <WatchlistGrid />
+                    </div>
                 </div>
             </div>
+            {user && (
+                <FollowListModal
+                    isOpen={modalConfig.isOpen}
+                    onClose={() => setModalConfig({ ...modalConfig, isOpen: false })}
+                    userId={user.id}
+                    type={modalConfig.type}
+                />
+            )}
         </div>
     );
 };

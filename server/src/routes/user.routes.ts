@@ -207,4 +207,124 @@ router.delete('/me/avatar', authMiddleware, async (req: Request, res: Response, 
     }
 });
 
+
+// GET /api/v1/users/search - Search for users
+router.get('/search', authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const query = req.query.q as string;
+        const page = parseInt(req.query.page as string, 10) || 1;
+        const limit = parseInt(req.query.limit as string, 10) || 20;
+
+        if (!query || query.trim().length === 0) {
+            res.json({ users: [], pagination: { page, limit, total: 0, totalPages: 0 } });
+            return;
+        }
+
+        const skip = (page - 1) * limit;
+
+        const [users, total] = await Promise.all([
+            prisma.user.findMany({
+                where: {
+                    OR: [
+                        { username: { contains: query, mode: 'insensitive' } },
+                        { displayName: { contains: query, mode: 'insensitive' } },
+                    ],
+                    NOT: { id: req.user!.userId } // Exclude self
+                },
+                select: {
+                    id: true,
+                    username: true,
+                    displayName: true,
+                    profilePictureUrl: true,
+                    isPrivate: true,
+                    following: {
+                        where: { followerId: req.user!.userId },
+                        select: { followerId: true }
+                    }
+                },
+                skip,
+                take: limit,
+            }),
+            prisma.user.count({
+                where: {
+                    OR: [
+                        { username: { contains: query, mode: 'insensitive' } },
+                        { displayName: { contains: query, mode: 'insensitive' } },
+                    ],
+                    NOT: { id: req.user!.userId } // Exclude self
+                }
+            })
+        ]);
+
+        const formattedUsers = users.map(user => ({
+            ...user,
+            isFollowing: user.following.length > 0,
+            following: undefined
+        }));
+
+        res.json({
+            users: formattedUsers,
+            pagination: {
+                page,
+                limit,
+                total,
+                totalPages: Math.ceil(total / limit),
+            },
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+// GET /api/v1/users/:id - Get specific user profile
+router.get('/:id', authMiddleware, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const targetId = req.params.id;
+        const currentId = req.user!.userId;
+
+        // Fetch user profile stats
+        const user = await prisma.user.findUnique({
+            where: { id: targetId },
+            select: {
+                id: true,
+                username: true,
+                displayName: true,
+                bio: true,
+                profilePictureUrl: true,
+                location: true,
+                isPrivate: true,
+                createdAt: true,
+                _count: {
+                    select: {
+                        followers: true,
+                        following: true,
+                        entries: true
+                    }
+                }
+            },
+        });
+
+        if (!user) {
+            throw new AppError('User not found', 404);
+        }
+
+        // Check if currently following
+        const isFollowing = await prisma.follow.findUnique({
+            where: {
+                followerId_followingId: {
+                    followerId: currentId,
+                    followingId: targetId,
+                },
+            },
+        });
+
+        res.json({
+            ...user,
+            isFollowing: !!isFollowing,
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
 export default router;

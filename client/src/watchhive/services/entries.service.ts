@@ -103,6 +103,7 @@ export interface UpdateEntryData {
 }
 
 export interface GetEntriesParams {
+    userId?: string;
     type?: 'MOVIE' | 'TV_SHOW' | 'EPISODE';
     rating?: number;
     tag?: string;

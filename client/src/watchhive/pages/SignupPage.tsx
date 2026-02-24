@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts';
 import { GoogleSignInButton } from '../components/auth';
+import whLogo from '../assets/images/watchhive-logo.png';
 import './AuthPages.css';
 
 export const SignupPage: React.FC = () => {
@@ -109,7 +110,7 @@ export const SignupPage: React.FC = () => {
                 {/* Header */}
                 <div className="auth-header">
                     <div className="auth-logo">
-                        <span className="auth-logo-text">WH</span>
+                        <img src={whLogo} alt="WatchHive" className="auth-logo-img" />
                     </div>
                     <h1 className="auth-title">Create Account</h1>
                     <p className="auth-subtitle">

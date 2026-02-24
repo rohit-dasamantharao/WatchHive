@@ -3,6 +3,8 @@ import { body, param, validationResult } from 'express-validator';
 import { PrismaClient, EntryType } from '@prisma/client';
 import { authMiddleware } from '../middleware/auth.middleware.js';
 
+import tmdbService from '../services/tmdb.service.js';
+
 const router = Router();
 const prisma = new PrismaClient();
 
@@ -47,6 +49,25 @@ router.post(
                 watchLocation,
             } = req.body;
 
+            let entryTags: string[] = Array.isArray(tags) ? [...tags] : [];
+
+            if (tmdbId) {
+                try {
+                    let genres: string[] = [];
+                    if (type === 'MOVIE') {
+                        const details = await tmdbService.getMovieDetails(tmdbId);
+                        genres = details.genres.map(g => g.name);
+                    } else if (type === 'TV_SHOW') {
+                        const details = await tmdbService.getTVShowDetails(tmdbId);
+                        genres = details.genres.map(g => g.name);
+                    }
+                    // Merge and deduplicate
+                    entryTags = Array.from(new Set([...entryTags, ...genres]));
+                } catch (tmdbError) {
+                    console.error('Failed to auto-fetch genres', tmdbError);
+                }
+            }
+
             // Create entry
             const entry = await prisma.entry.create({
                 data: {
@@ -57,7 +78,7 @@ router.post(
                     watchedAt: watchedAt ? new Date(watchedAt) : new Date(),
                     rating: rating || null,
                     review: review || null,
-                    tags: tags || [],
+                    tags: entryTags,
                     isRewatch: isRewatch || false,
                     watchLocation: watchLocation || null,
                 },
@@ -95,7 +116,7 @@ router.post(
 // ============================================
 router.get('/', authMiddleware, async (req: Request, res: Response): Promise<any> => {
     try {
-        const userId = (req as any).user.userId;
+        const currentUserId = (req as any).user.userId;
         const {
             type,
             rating,
@@ -105,10 +126,42 @@ router.get('/', authMiddleware, async (req: Request, res: Response): Promise<any
             offset = '0',
             sortBy = 'watchedAt',
             order = 'desc',
+            userId: queryUserId,
         } = req.query;
 
+        let targetUserId = currentUserId;
+
+        // If querying another user, check privacy permissions
+        if (queryUserId && queryUserId !== currentUserId) {
+            targetUserId = queryUserId as string;
+
+            const targetUser = await prisma.user.findUnique({
+                where: { id: targetUserId },
+                select: { isPrivate: true }
+            });
+
+            if (!targetUser) {
+                return res.status(404).json({ error: 'User not found' });
+            }
+
+            if (targetUser.isPrivate) {
+                const isFollowing = await prisma.follow.findUnique({
+                    where: {
+                        followerId_followingId: {
+                            followerId: currentUserId,
+                            followingId: targetUserId
+                        }
+                    }
+                });
+
+                if (!isFollowing) {
+                    return res.status(403).json({ error: 'This account is private. Follow to see entries.' });
+                }
+            }
+        }
+
         // Build filter conditions
-        const where: any = { userId };
+        const where: any = { userId: targetUserId };
 
         if (type) {
             where.type = type as EntryType;

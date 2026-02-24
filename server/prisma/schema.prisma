@@ -32,6 +32,8 @@ model User {
   comments          Comment[]
   lists             List[]
   notifications     Notification[]
+  sentFollowRequests     FollowRequest[] @relation("SentFollowRequests")
+  receivedFollowRequests FollowRequest[] @relation("ReceivedFollowRequests")
 
   @@map("users")
 }
@@ -82,6 +84,23 @@ model Follow {
   @@index([followerId])
   @@index([followingId])
   @@map("follows")
+}
+
+model FollowRequest {
+  id          String   @id @default(uuid())
+  senderId    String   @map("sender_id")
+  recipientId String   @map("recipient_id")
+  status      String   @default("pending") // pending, accepted, rejected
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  // Relations
+  sender      User     @relation("SentFollowRequests", fields: [senderId], references: [id], onDelete: Cascade)
+  recipient   User     @relation("ReceivedFollowRequests", fields: [recipientId], references: [id], onDelete: Cascade)
+
+  @@unique([senderId, recipientId])
+  @@index([senderId])
+  @@index([recipientId])
+  @@map("follow_requests")
 }
 
 model Like {
@@ -142,6 +161,7 @@ model ListItem {
   id         String   @id @default(uuid())
   listId     String   @map("list_id")
   tmdbId     Int      @map("tmdb_id")
+  mediaType  String   @default("movie") @map("media_type")
   orderIndex Int      @map("order_index")
   addedAt    DateTime @default(now()) @map("added_at")
 
@@ -170,6 +190,8 @@ model Notification {
 
 enum NotificationType {
   FOLLOW
+  FOLLOW_REQUEST
+  FOLLOW_ACCEPT
   LIKE
   COMMENT
   REPLY

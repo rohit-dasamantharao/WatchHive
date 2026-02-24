@@ -12,6 +12,11 @@ import tmdbRoutes from './routes/tmdb.routes.js';
 import followsRoutes from './routes/follows.routes.js';
 import likesRoutes from './routes/likes.routes.js';
 import userRoutes from './routes/user.routes.js';
+import feedRoutes from './routes/feed.routes.js';
+import commentsRoutes from './routes/comments.routes.js';
+import mindlensRoutes from './routes/mindlens.routes.js';
+import listRoutes from './routes/lists.routes.js';
+import notificationsRoutes from './routes/notifications.routes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -55,6 +60,11 @@ app.use('/api/v1/tmdb', tmdbRoutes);
 app.use('/api/v1/follows', followsRoutes);
 app.use('/api/v1/likes', likesRoutes);
 app.use('/api/v1/users', userRoutes);
+app.use('/api/v1/feed', feedRoutes);
+app.use('/api/v1/comments', commentsRoutes);
+app.use('/api/v1/mindlens', mindlensRoutes);
+app.use('/api/v1/lists', listRoutes);
+app.use('/api/v1/notifications', notificationsRoutes);
 
 // 404 handler
 app.use(notFoundHandler);

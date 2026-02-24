@@ -77,30 +77,21 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 3.5rem;
-    height: 3.5rem;
-    background: #000000;
-    border-radius: 16px;
+    width: 4.5rem;
+    height: 4.5rem;
     margin-bottom: var(--space-5);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.auth-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
 }
 
 @media (prefers-color-scheme: dark) {
     .auth-logo {
-        background: #ffffff;
+        /* no special dark bg needed, logo works on both */
     }
-
-    .auth-logo-text {
-        color: #000000 !important;
-    }
-}
-
-.auth-logo-text {
-    font-family: var(--font-display);
-    font-size: 1.25rem;
-    font-weight: var(--font-extrabold);
-    color: #ffffff;
-    letter-spacing: -0.025em;
 }
 
 .auth-title {
@@ -556,11 +547,11 @@
 }
 
 /* Ensure the Google-rendered iframe/button stretches full width */
-.google-signin-container > div {
+.google-signin-container>div {
     width: 100% !important;
 }
 
-.google-signin-container > div > div {
+.google-signin-container>div>div {
     width: 100% !important;
 }
 
